@@ -5,14 +5,21 @@
  * Author : Seviged
  */ 
 
+#include "defines.h"
 #include <avr/io.h>
+#include <util/delay.h>
+#include "app.h"
+#include "board.h"
+#include "display.h"
 
 
 int main(void)
 {
-    /* Replace with your application code */
+	initialization();
+
     while (1) 
     {
+		mainApp();
     }
 }
 
