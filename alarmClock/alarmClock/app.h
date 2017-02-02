@@ -11,9 +11,11 @@
 
 #include <avr/io.h>
 
+#define LONG_DELAY			80
+
 void initialization();
 void mainApp();
-void keyProcess();
+void keyProcess(); 
 
 
 

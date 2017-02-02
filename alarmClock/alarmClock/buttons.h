@@ -14,7 +14,7 @@
  #include <avr/io.h>
 
 
- #define APP_KEY_COUNT		3													// Count of application keys
+ #define APP_KEY_COUNT		2													// Count of application keys
  #define IS_KEY_PRESSED_0	GET_KEY_S0											// Port pin for channel 1
  #define IS_KEY_PRESSED_1	GET_KEY_S1											// Port pin for channel 2
 
@@ -34,7 +34,7 @@
 
  // Key timing
  #define	KEY_TIME_SHORT		60													// Debounce time before pressed short
- #define	KEY_TIME_LONG		1000													// Time before pressed long
+ #define	KEY_TIME_LONG		500													// Time before pressed long
 
  /// This structure is used to define a key channel
  typedef struct KeyChannel_tag

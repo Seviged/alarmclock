@@ -33,6 +33,8 @@
 
 	SET_D5;
 	SET_D6;
+
+	CLR_PWM;
  }
 
  void setSymbol(uint8_t num)
@@ -63,7 +65,7 @@
  {
 	if (flag & BIT2)
 	{
-		CLR_D5;
+		SET_D5;
 	}
  }
 
@@ -75,13 +77,13 @@
 void displayProcess()
 {
 	
-	SET_D4;
+	
 	setSymbol(regValue[0]);
 	if (flag & BIT0)
 	{
 		CLR_D1;
 	}
-	_delay_us(500);
+	_delay_us(90);
 
 	SET_D1;
 	setSymbol(regValue[1]);
@@ -89,7 +91,7 @@ void displayProcess()
 	{
 		CLR_D2;
 	}
-	_delay_us(500);
+	_delay_us(90);
 
 	SET_D2;
 	setSymbol(regValue[2]);
@@ -97,7 +99,7 @@ void displayProcess()
 	{
 		CLR_D3;
 	}
-	_delay_us(500);
+	_delay_us(90);
 
 	SET_D3;
 	setSymbol(regValue[3]);
@@ -105,8 +107,10 @@ void displayProcess()
 	{
 		CLR_D4;
 	}
-	_delay_us(500);
+	_delay_us(90);
 	
+	SET_D4;
+	_delay_us(900);
 }
 
 

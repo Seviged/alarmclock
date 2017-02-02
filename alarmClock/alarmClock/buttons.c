@@ -127,6 +127,11 @@
 			 SET_APP_KEY_STATE (pThis, KEY_ST_OFF);							// Set new state
 			 SET_APP_KEY_EVENT (pThis, KEY_EV_RELEASE);						// Release-Event-NEW
 		 }
+		 else
+		 {
+			SET_APP_KEY_STATE(pThis, KEY_ST_LONG);						// Set new state
+			SET_APP_KEY_EVENT(pThis, KEY_EV_LONG);						// Set new state
+		 }
 
 		 break;
 
