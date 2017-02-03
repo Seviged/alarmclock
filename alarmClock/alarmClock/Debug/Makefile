@@ -38,6 +38,7 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../app.c \
+../beeper.c \
 ../board.c \
 ../buttons.c \
 ../display.c \
@@ -53,6 +54,7 @@ ASM_SRCS +=
 
 OBJS +=  \
 app.o \
+beeper.o \
 board.o \
 buttons.o \
 display.o \
@@ -61,6 +63,7 @@ timer.o
 
 OBJS_AS_ARGS +=  \
 app.o \
+beeper.o \
 board.o \
 buttons.o \
 display.o \
@@ -69,6 +72,7 @@ timer.o
 
 C_DEPS +=  \
 app.d \
+beeper.d \
 board.d \
 buttons.d \
 display.d \
@@ -77,6 +81,7 @@ timer.d
 
 C_DEPS_AS_ARGS +=  \
 app.d \
+beeper.d \
 board.d \
 buttons.d \
 display.d \
@@ -97,6 +102,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

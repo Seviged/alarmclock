@@ -9,13 +9,20 @@
   #include "board.h"
   #include "defines.h"
   #include "display.h"
+  #include "beeper.h"
   #include <avr/io.h>
   #include <util/delay.h>
   #include <avr/interrupt.h>
+  #include <stdlib.h>
 
   uint8_t sec = 0;
   uint8_t min = 0;
   uint8_t hour = 0;
+  uint8_t dayFlag = 1;
+
+  uint8_t alarmHour = 0;
+  uint8_t alarmMin = 0;
+  uint8_t alarmFlag = 0;
 
 
   static volatile uint16_t globalTime;
@@ -39,6 +46,11 @@
 
 void timerProcess()
 {
+	if (localTime % 199 == 0)
+	{
+		srand((unsigned int)globalTime);
+		setBeepFreq(27 + rand() % 150);
+	}
 	if (localTime > 499)
 	{
 		CLR_D5;
@@ -63,7 +75,40 @@ void timerProcess()
 	if (hour > 23)
 	{
 		hour = 0;
+		dayFlag = 1;
 	}
+
+	if (alarmFlag == 1)
+	{
+		if (hour >= alarmHour && min >= alarmMin && dayFlag == 1)
+		{
+			startBeep();
+			alarmFlag = 0;
+		}
+	}
+}
+
+void stopAlarm()
+{
+	
+	stopBeep();
+	CLR_D6;
+
+}
+
+void startAlarm()
+{
+	alarmFlag = 1;
+	if (hour >= alarmHour)
+	{	
+		if (min >= alarmMin)
+		{
+			dayFlag = 0;
+		}
+	}
+	SET_D6;
+
+	
 }
 
 void setTime(uint8_t lTime, uint8_t hl)
@@ -79,9 +124,26 @@ void setTime(uint8_t lTime, uint8_t hl)
 	}
 }
 
+void setAlarmTime(uint8_t lTime, uint8_t hl)
+{
+	if (hl == 0)
+	{
+		alarmMin = lTime;
+	}
+	else
+	{
+		alarmHour = lTime;
+	}
+}
+
 uint16_t getTime()
 {
 	return (hour * 100) + min;
+}
+
+uint16_t getAlarmTime()
+{
+	return (alarmHour * 100) + alarmMin;
 }
 
   uint16_t getTimeMs()

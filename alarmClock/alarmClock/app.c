@@ -12,6 +12,7 @@
  #include "display.h"
  #include "timer.h"
  #include "buttons.h"
+ #include "beeper.h"
  #include <avr/io.h>
  #include <util/delay.h>
 
@@ -25,6 +26,14 @@
  uint8_t tempHour;
  uint8_t tempMin;
 
+ uint8_t tempAlMin;
+ uint8_t tempAlHour;
+
+ uint16_t ttt = 0;
+
+ uint16_t longCancel = 0;
+ uint8_t alFlag = 0;
+
  uint16_t cycle = LONG_DELAY + 10;
 
 
@@ -34,6 +43,7 @@
 	initDisplay();
 	initTimer();
 	AppKey_Init();
+	beepTimerInit();
  }
 
 
@@ -42,12 +52,30 @@ void mainApp()
 	timerProcess();
 	displayProcess();
 
+	if (alFlag == 1 && longCancel == 0)
+	{
+		alFlag = 0;
+		stopAlarm();
+		SET_D5;
+		_delay_ms(2000);
+	}
+
 	switch (menu)
 	{
 		case 0 :
 			getFlag(7);
 			displayTime(getTime());
 			break;
+
+		case 5 :
+			displayTime(getAlarmTime());
+			if (ttt == 0)
+			{
+				menu = 0;
+			}
+			else ttt--;
+			break;
+
 
 		case 10 :
 			getFlag(3);
@@ -65,6 +93,47 @@ void mainApp()
 			break;
 
 		case 100 :
+			if (orientation == 0)
+			{
+				getFlag(1);
+				if (par == 1)
+				{
+					par = 0;
+					if (cycle > LONG_DELAY)
+					{
+						cycle = LONG_DELAY + 10;
+						tempAlMin++;
+					}
+					else cycle++;
+					
+					if (tempAlMin > 59)
+					{
+						tempAlMin = 0;
+					}
+				}
+				displayTime((uint16_t)tempAlMin);
+				setAlarmTime(tempAlMin, 0);
+			}
+			else
+			{
+				getFlag(2);
+				if (par == 1)
+				{
+					par = 0;
+					if (cycle > LONG_DELAY)
+					{
+						cycle = LONG_DELAY + 10;
+						tempAlHour++;
+					}
+					else cycle++;
+					if (tempAlHour > 23)
+					{
+						tempAlHour = 0;
+					}
+				}
+				displayTime((uint16_t)tempAlHour * 100);
+				setAlarmTime(tempAlHour, 1);
+			}
 			break;
 
 		case 200 :
@@ -129,7 +198,15 @@ void keyProcess()
 
 	if (nEvent1 == KEY_EV_LONG && nEvent2 == KEY_EV_LONG)
 	{
-		//disable ALARM
+		if (alFlag == 1)
+		{
+			longCancel--;
+			if (longCancel > 3000)
+			{
+				longCancel = 0;
+			}
+		}
+		
 	}
 	else
 	{
@@ -139,12 +216,16 @@ void keyProcess()
 			{
 				menu = 10;
 			}
+			else if (menu == 5) {}
 			else if (menu == 10 || menu == 20)
 			{
 				menu =  menu * 10;
 				switch (menu)
 				{
 					case 100 :
+						tmp = getAlarmTime();
+						tempAlHour = tmp / 100;
+						tempAlMin = tmp % 100;
 						break;
 
 					case 200 :
@@ -175,8 +256,10 @@ void keyProcess()
 		{
 			if (menu == 0)
 			{
-				//show alarm
+				menu = 5;
+				ttt = 1000;//show alarm
 			}
+			else if (menu == 5) {}
 			else if (menu == 10)
 			{
 				menu = menu + 10;
@@ -196,8 +279,11 @@ void keyProcess()
 		{
 			if (menu == 0)
 			{
-				//set alarm
+				longCancel = 2000;
+				alFlag = 1;
+				startAlarm();//set alarm
 			}
+			else if (menu == 5) {}
 			else if (menu == 10)
 			{
 				menu = menu + 10;

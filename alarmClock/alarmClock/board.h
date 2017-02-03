@@ -22,8 +22,8 @@
 // Usage Port B.6: crystal
 // Usage Port B.7: crystal
 
-#define DDRB_SETTING	0x18													// B.0 - B.7 inputs
-#define PORTB_SETTING	0xFF													// pull up
+#define DDRB_SETTING	0x1C													// B.0 - B.7 inputs
+#define PORTB_SETTING	0xFB													// pull up
 
 
 
@@ -45,7 +45,7 @@
 // Usage Port D.7: beeper
 
 #define DDRD_SETTING	0xFF													// set d1, d4-d7 as output
-#define PORTD_SETTING	0x9F													// pull up, d0 d2 d3
+#define PORTD_SETTING	0x1F													// pull up, d0 d2 d3
 
 //leds to power
 #define SET_D1					PORTC |=  BIT0									// Switch on
@@ -130,6 +130,11 @@
 #define CLR_PWM					PORTD &= ~BIT7									// Switch off
 #define TGL_PWM					PORTD ^=  BIT7									// Toggle
 #define IS_PWM_ON				((PIND & BIT7) == BIT7)
+
+#define SET_PWM2					PORTB |=  BIT2									// Switch on
+#define CLR_PWM2					PORTB &= ~BIT2									// Switch off
+#define TGL_PWM2					PORTB ^=  BIT2									// Toggle
+#define IS_PWM2				((PINB & BIT2) == BIT2)
 
 #define GET_KEY_S0				((PINB & BIT0) == 0x00)
 #define GET_KEY_S1				((PINB & BIT1) == 0x00)

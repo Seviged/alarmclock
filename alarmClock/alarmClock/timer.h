@@ -23,5 +23,9 @@ uint16_t getDelayMs(uint16_t);
 void timerProcess();
 uint16_t getTime();
 void setTime(uint8_t, uint8_t);
+uint16_t getAlarmTime();
+void stopAlarm();
+void startAlarm();
+void setAlarmTime(uint8_t, uint8_t);
 
 #endif /* TIMER_H_ */

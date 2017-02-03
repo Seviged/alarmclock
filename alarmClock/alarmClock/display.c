@@ -31,10 +31,11 @@
 	SET_D3;
 	SET_D4;
 
-	SET_D5;
-	SET_D6;
+	CLR_D5;
+	CLR_D6;
 
 	CLR_PWM;
+	CLR_PWM2;
  }
 
  void setSymbol(uint8_t num)

@@ -4,6 +4,8 @@
 
 app.c
 
+beeper.c
+
 board.c
 
 buttons.c

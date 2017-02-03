@@ -140,6 +140,12 @@
     <Compile Include="app.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="beeper.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="beeper.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="board.c">
       <SubType>compile</SubType>
     </Compile>
